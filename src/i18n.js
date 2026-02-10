@@ -43,7 +43,12 @@ i18n
     cat_web: "Web",
     cat_mobile: "Mobile",
     cat_ai: "AI",
-    view_project: "View Project"
+    view_project: "View Project",
+    
+
+  form_phone: "Phone Number",
+  form_message: "Your Message",
+
         }
       },
       ar: {
@@ -53,6 +58,8 @@ i18n
     cat_all: " الكل",
     cat_web: "مواقع",
     cat_mobile: "تطبيقات",
+    form_phone: "رقم الهاتف",
+  form_message: "رسالتك",
     cat_ai: "ذكاء اصطناعي",
     view_project: "عرض المشروع",
           nav_services: "خدماتنا",

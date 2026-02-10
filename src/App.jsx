@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';import { useTranslation } from 'react-i18next';
 import { FiCode, FiCpu, FiLayers, FiArrowRight, FiMail, FiPhone, FiMapPin, FiGlobe, FiMenu, FiX, FiInstagram, FiFacebook, FiLinkedin } from 'react-icons/fi';
 import { SiJavascript, SiReact, SiTailwindcss, SiFigma, SiNodedotjs, SiPython, SiTiktok } from 'react-icons/si';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-
-
+import emailjs from '@emailjs/browser'; // 2. استيراد المكتبة
+import toast, { Toaster } from 'react-hot-toast';
+import PortfolioDemoSection from './DashboardScreen';
 const App = () => {
   const { t, i18n } = useTranslation();
   const isRtl = i18n.language === 'ar';
@@ -24,7 +25,32 @@ const [isOpen, setIsOpen] = useState(false); // حالة القائمة الجا
   const toggleLanguage = () => {
     i18n.changeLanguage(isRtl ? 'en' : 'ar');
   };
-
+const form = useRef(); 
+const sendEmail = (e) => {
+  e.preventDefault();
+  
+  const loadingToast = toast.loading(isRtl ? 'جاري الإرسال...' : 'Sending message...');
+    emailjs.sendForm(
+      'service_j1600ac', 
+      'template_vzg7n7l', 
+      form.current, 
+      'qma7w3771APtoKwzb'
+    )
+    .then(() => {
+        // 2. نجاح الإرسال: تغيير الرسالة لموجبة
+        toast.success(isRtl ? 'تم الإرسال بنجاح!' : 'Message sent successfully!', {
+          id: loadingToast,
+        });
+        
+        // 3. مسح الداتا بعد الارسال
+        form.current.reset(); 
+    }, (error) => {
+        // 4. فشل الإرسال: تغيير الرسالة لخطأ
+        toast.error(isRtl ? 'عذراً، فشل الإرسال.' : 'Failed to send: ' + error.text, {
+          id: loadingToast,
+        });
+    });
+  };
   const projects = [
     { id: 1, title: "Fintech Dashboard", category: "Web", img: "https://images.unsplash.com/photo-1551288049-bbbda536639a?q=80&w=500", color: "from-blue-500/20" },
     { id: 2, title: "E-Commerce App", category: "Mobile", img: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=500", color: "from-purple-500/20" },
@@ -44,7 +70,7 @@ const socialLinks = [
   ];
   return (
   <div className={`min-h-screen bg-[#020617] text-slate-200 font-sans selection:bg-cyan-500/30 overflow-x-hidden ${isRtl ? 'font-arabic' : ''}`}>
-      
+      <Toaster position="top-center" reverseOrder={false} />
       {/* Navbar */}
       <nav className="flex justify-between items-center px-6 md:px-16 py-5 border-b border-slate-800/50 backdrop-blur-xl sticky top-0 z-50">
         <div className="text-2xl font-black tracking-tighter text-white">CODIXIA<span className="text-cyan-500">.</span></div>
@@ -127,23 +153,7 @@ const socialLinks = [
       {/* بقية محتوى الصفحة (Hero, Stats, etc.) كما هو... */}
       <main>
           {/* Hero Section */}
-          <section className="relative overflow-hidden py-24 px-6 md:px-16 text-center">
-            <div data-aos="fade-up">
-              <span className="px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/5 text-cyan-400 text-xs font-bold tracking-widest uppercase mb-6 inline-block">
-                {t('hero_badge')}
-              </span>
-              <h1 className="text-6xl md:text-8xl font-bold text-white mb-8 tracking-tight leading-tight">
-                {t('hero_title_1')} <br />
-                <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">{t('hero_title_2')}</span>
-              </h1>
-              <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-12">
-                {t('hero_desc')}
-              </p>
-              <button className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 px-10 py-4 rounded-xl font-bold transition-all transform hover:scale-105">
-                {t('btn_start')}
-              </button>
-            </div>
-          </section>
+   
 
       {/* Hero Section */}
       <section className="relative overflow-hidden py-24 px-6 md:px-16 text-center">
@@ -201,39 +211,63 @@ const socialLinks = [
       </section>
 
       {/* Portfolio with AOS */}
-      <section id="work" className="py-32 px-6 md:px-16 bg-slate-900/10">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-20" data-aos="fade-down">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">{t('portfolio_title')}</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {projects.map((project, i) => (
-              <div key={project.id} data-aos={i % 2 === 0 ? "fade-right" : "fade-left"}>
-                <ProjectCard project={project} isRtl={isRtl} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+   <PortfolioDemoSection/>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-32 px-6 md:px-16">
-        <div data-aos="zoom-out-up" className="max-w-6xl mx-auto bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-10 md:p-20 border border-slate-700/50 shadow-2xl relative">
-          <div className="grid md:grid-cols-2 gap-16">
-            <div>
-              <h2 className="text-4xl font-bold text-white mb-6">{t('contact_title')}</h2>
-              <div className="space-y-6">
-                <ContactInfo icon={<FiPhone />} text="+1 234 567 890" />
-                <ContactInfo icon={<FiMail />} text="hello@codixia.com" />
-              </div>
+<section id="contact" className="py-32 px-6 md:px-16">
+      <div data-aos="zoom-out-up" className="max-w-6xl mx-auto bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-10 md:p-20 border border-slate-700/50 shadow-2xl relative">
+        <div className="grid md:grid-cols-2 gap-16">
+          <div>
+            <h2 className="text-4xl font-bold text-white mb-6">{t('contact_title')}</h2>
+            <div className="space-y-6">
+              <ContactInfo icon={<FiPhone />} text="+20 155 062 2443" />
+              <ContactInfo icon={<FiMail />} text="codixiatech@gmail.com" />
             </div>
-            <form className="space-y-4">
-              <input type="text" placeholder={t('form_name')} className="w-full bg-slate-950/50 border border-slate-700 rounded-xl px-5 py-4 outline-none focus:border-cyan-500 transition" />
-              <button className="w-full bg-white text-slate-900 font-bold py-4 rounded-xl hover:bg-cyan-400 transition">{t('btn_send')}</button>
-            </form>
           </div>
+
+          {/* 4. إضافة ref و onSubmit للفورم */}
+          <form ref={form} onSubmit={sendEmail} className="space-y-4">
+            
+            {/* 5. إضافة name="user_name" لتطابق الـ Template */}
+            <input 
+              name="user_name"
+              type="text" 
+              required
+              placeholder={t('form_name')} 
+              className="w-full bg-slate-950/50 border border-slate-700 rounded-xl px-5 py-4 text-white outline-none focus:border-cyan-500 transition" 
+            />
+            <input 
+              name="user_email"
+              type="email" 
+              required
+              placeholder={t('form_email')} 
+              className="w-full bg-slate-950/50 border border-slate-700 rounded-xl px-5 py-4 text-white outline-none focus:border-cyan-500 transition" 
+            />
+            
+         <input 
+  name="user_phone"
+  type="number" 
+  required
+  placeholder={t('form_phone') || "رقم الهاتف"} 
+  className="w-full bg-slate-950/50 border border-slate-700 rounded-xl px-5 py-4 text-white outline-none focus:border-cyan-500 transition 
+             [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
+/>
+
+            {/* 7. إضافة name="message" لتطابق الـ Template */}
+            <textarea 
+              name="message"
+              required
+              placeholder={t('form_message') || "رسالتك"} 
+              rows="4"
+              className="w-full bg-slate-950/50 border border-slate-700 rounded-xl px-5 py-4 text-white outline-none focus:border-cyan-500 transition resize-none"
+            ></textarea>
+
+            <button type="submit" className="w-full bg-white text-slate-900 font-bold py-4 rounded-xl hover:bg-cyan-400 transition">
+              {t('btn_send')}
+            </button>
+          </form>
         </div>
-      </section>
+      </div>
+    </section>
 
     <footer className="py-16 px-6 md:px-16 border-t border-slate-800/50 bg-slate-950/50">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
@@ -292,10 +326,16 @@ const ServiceCard = ({ icon, title, desc }) => (
 );
 
 const ContactInfo = ({ icon, text }) => (
-  <div className="flex items-center gap-4 text-slate-300">
-    <div className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center text-cyan-400">{icon}</div>
-    <span>{text}</span>
+  <div className="flex flex-row items-center gap-4 text-slate-300">
+    <div className="w-10 h-10 shrink-0 bg-slate-800 rounded-lg flex items-center justify-center text-cyan-400">
+      {icon}
+    </div>
+  
+    <span className="text-sm md:text-base whitespace-nowrap" dir="ltr">
+      {text}
+    </span>
   </div>
+
 );
 
 export default App;
