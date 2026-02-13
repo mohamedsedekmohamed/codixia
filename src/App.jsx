@@ -30,8 +30,8 @@ import { FaWhatsapp } from "react-icons/fa";
 const App = () => {
 // const [activeTab, setActiveTab] = useState('S');
 const data = {
-    S: [s2,s1,  s3, s4, s5, s6],
-    W: [w1, w2, w3, w4, w5, w6]
+    S: [s5,s2,s1,  s3, s4,  s6],
+    W: [w5,w2,w1,  w3, w4,  w6]
   };
   const { t, i18n } = useTranslation();
   const isRtl = i18n.language === 'ar';
