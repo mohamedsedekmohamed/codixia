@@ -7,7 +7,31 @@ import 'aos/dist/aos.css';
 import emailjs from '@emailjs/browser'; // 2. استيراد المكتبة
 import toast, { Toaster } from 'react-hot-toast';
 import PortfolioDemoSection from './DashboardScreen';
+
+
+import s1 from './assets/s1.png';
+import s2 from './assets/s2.png';
+import s3 from './assets/s3.png';
+import s4 from './assets/s4.png';
+import s5 from './assets/s5.png';
+import s6 from './assets/s6.png';
+// import s7 from './assets/s7.png';
+import w1 from './assets/w1.png';
+import w2 from './assets/w2.png';
+import w3 from './assets/w3.png';
+import w4 from './assets/w4.png';
+import w5 from './assets/w5.png';
+import w6 from './assets/w6.png'; 
+import w7 from './assets/w7.png';
+import w8 from './assets/w8.png';
+import PortfolioGallery from './PortfolioGallery';
+
 const App = () => {
+// const [activeTab, setActiveTab] = useState('S');
+const data = {
+    S: [s1, s2, s3, s4, s5, s6],
+    W: [w1, w2, w3, w4, w5, w6]
+  };
   const { t, i18n } = useTranslation();
   const isRtl = i18n.language === 'ar';
 const [isOpen, setIsOpen] = useState(false); // حالة القائمة الجانبية
@@ -51,12 +75,7 @@ const sendEmail = (e) => {
         });
     });
   };
-  const projects = [
-    { id: 1, title: "Fintech Dashboard", category: "Web", img: "https://images.unsplash.com/photo-1551288049-bbbda536639a?q=80&w=500", color: "from-blue-500/20" },
-    { id: 2, title: "E-Commerce App", category: "Mobile", img: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=500", color: "from-purple-500/20" },
-    { id: 3, title: "AI Medical Analysis", category: "AI", img: "https://images.unsplash.com/photo-1576091160550-2173dad99901?q=80&w=500", color: "from-cyan-500/20" },
-    { id: 4, title: "Real Estate Portal", category: "Web", img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=500", color: "from-emerald-500/20" }
-  ];
+
 const socialLinks = [
     { id: 1, icon: <FiInstagram />, url: "https://www.instagram.com/codixia.tech", label: "Instagram" },
     { id: 2, icon: <FiFacebook />, url: "https://www.facebook.com/share/14aQoFR8joe/", label: "Facebook" },
@@ -190,7 +209,7 @@ const socialLinks = [
       </section>
 
       {/* Services */}
-      <section id="services" className="py-32 px-6 md:px-16">
+      <section  className="py-32 px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
           <div className="mb-20" data-aos={isRtl ? "fade-left" : "fade-right"}>
             <h2 className="text-4xl font-bold text-white mb-4">{t('services_title')}</h2>
@@ -212,6 +231,8 @@ const socialLinks = [
 
       {/* Portfolio with AOS */}
    <PortfolioDemoSection/>
+<PortfolioGallery  t={t} data={data}/>
+
 
 <section id="contact" className="py-32 px-6 md:px-16">
       <div data-aos="zoom-out-up" className="max-w-6xl mx-auto bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-10 md:p-20 border border-slate-700/50 shadow-2xl relative">
