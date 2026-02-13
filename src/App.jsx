@@ -22,14 +22,15 @@ import w3 from './assets/w3.png';
 import w4 from './assets/w4.png';
 import w5 from './assets/w5.png';
 import w6 from './assets/w6.png'; 
-import w7 from './assets/w7.png';
-import w8 from './assets/w8.png';
+// import w7 from './assets/w7.png';
+// import w8 from './assets/w8.png';
 import PortfolioGallery from './PortfolioGallery';
+import { FaWhatsapp } from "react-icons/fa";
 
 const App = () => {
 // const [activeTab, setActiveTab] = useState('S');
 const data = {
-    S: [s1, s2, s3, s4, s5, s6],
+    S: [s2,s1,  s3, s4, s5, s6],
     W: [w1, w2, w3, w4, w5, w6]
   };
   const { t, i18n } = useTranslation();
@@ -88,7 +89,17 @@ const socialLinks = [
     { name: t('nav_contact'), href: "#contact" },
   ];
   return (
-  <div className={`min-h-screen bg-[#020617] text-slate-200 font-sans selection:bg-cyan-500/30 overflow-x-hidden ${isRtl ? 'font-arabic' : ''}`}>
+  <div className={`min-h-screen relative bg-[#020617] text-slate-200 font-sans selection:bg-cyan-500/30 overflow-x-hidden ${isRtl ? 'font-arabic' : ''}`}>
+     
+       <a
+      href="https://wa.me/201221278019" // ✏️ غيّر الرقم
+      target="_blank"
+      rel="noopener noreferrer"
+      className="fixed bottom-5 right-5 z-[9999] flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-all duration-200 hover:scale-110 hover:shadow-2xl"
+      aria-label="Chat on WhatsApp"
+    >
+      <FaWhatsapp size={28} />
+    </a>
       <Toaster position="top-center" reverseOrder={false} />
       {/* Navbar */}
       <nav className="flex justify-between items-center px-6 md:px-16 py-5 border-b border-slate-800/50 backdrop-blur-xl sticky top-0 z-50">

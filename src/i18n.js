@@ -77,12 +77,26 @@ title: "Project Showcase",
   subtitle: "Explore our work categorized by type",
   typeS: "Handovas",
   typeW: "wans",
-  projectNum: "Project No."
+  projectNum: "Project No.",
+  featured_work
+: "Featured Work",
+show_less: "Show Less",
+ProjectCaseStudy: "Project Case Study",
+Portfolio: "Portfolio",
+work_desc: "We turn complex ideas into simple, elegant digital experiences.",
+  view_all_projects: "View All Projects"
         }
       },
       ar: {
         translation: {
+          ProjectCaseStudy: "حالة المشروع",
+          Portfolio: "المعرض",
+          show_less: "عرض أقل",
+          work_desc: "نحول الأفكار المعقدة إلى تجارب رقمية بسيطة وجذابة.",
 title: "معرض المشاريع",
+featured_work
+: "أعمالنا المختارة",
+view_all_projects: "عرض جميع المشاريع",
   subtitle: "استكشف أعمالنا مصنفة حسب النوع",
   typeS: "Handova",
   typeW: "Wans",
