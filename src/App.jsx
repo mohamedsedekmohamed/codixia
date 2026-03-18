@@ -7,7 +7,8 @@ import 'aos/dist/aos.css';
 import emailjs from '@emailjs/browser'; // 2. استيراد المكتبة
 import toast, { Toaster } from 'react-hot-toast';
 import PortfolioDemoSection from './DashboardScreen';
-
+import { FiBriefcase } from "react-icons/fi";
+import CountUpLib from "react-countup";
 
 import s1 from './assets/s1.png';
 import s2 from './assets/s2.png';
@@ -26,6 +27,7 @@ import w6 from './assets/w6.png';
 // import w8 from './assets/w8.png';
 import PortfolioGallery from './PortfolioGallery';
 import { FaWhatsapp } from "react-icons/fa";
+
 
 const App = () => {
 // const [activeTab, setActiveTab] = useState('S');
@@ -83,13 +85,16 @@ const socialLinks = [
     { id: 3, icon: <FiLinkedin />, url: "https://www.linkedin.com/company/codixia-tech/", label: "LinkedIn" },
     { id: 4, icon: <SiTiktok />, url: "https://tiktok.com/@codixia.tech", label: "TikTok" },
   ];
-  const navItems = [
-    { name: t('nav_services'), href: "#services" },
-    { name: t('nav_work'), href: "#work" },
-    { name: t('nav_contact'), href: "#contact" },
-  ];
+
+const navItems = [
+    { name: t('nav_Home'), href: "#home", icon: <FiLayers /> },
+  { name: t('nav_services'), href: "#services", icon: <FiLayers /> },
+  { name: t('nav_work'), href: "#work", icon: <FiBriefcase /> },
+  { name: t('nav_contact'), href: "#contact", icon: <FiMail /> },
+];
+  
   return (
-  <div className={`min-h-screen relative bg-[#020617] text-slate-200 font-sans selection:bg-cyan-500/30 overflow-x-hidden ${isRtl ? 'font-arabic' : ''}`}>
+  <div className={`min-h-screen relative bg-[#A590BF]/50 text-slate-200 font-sans selection:bg-cyan-500/30 overflow-hidden ${isRtl ? 'font-arabic' : ''}`}>
      
        <a
       href="https://wa.me/201221278019" // ✏️ غيّر الرقم
@@ -101,234 +106,560 @@ const socialLinks = [
       <FaWhatsapp size={28} />
     </a>
       <Toaster position="top-center" reverseOrder={false} />
-      {/* Navbar */}
-      <nav className="flex justify-between items-center px-6 md:px-16 py-5 border-b border-slate-800/50 backdrop-blur-xl sticky top-0 z-50">
-        <div className="text-2xl font-black tracking-tighter text-white">CODIXIA<span className="text-cyan-500">.</span></div>
-        
-        {/* Desktop Menu */}
-        <div className="hidden md:flex gap-10 text-sm font-medium text-slate-400">
-          {navItems.map((item) => (
-            <a key={item.name} href={item.href} className="hover:text-cyan-400 transition-colors">{item.name}</a>
+
+  <section  className="flex justify-between items-center w-full  px-6 md:px-16 py-5 
+bg-[#08030D]/70 backdrop-blur-2xl 
+border-b border-[#A590BF]/20 
+fixed top-0 z-50">
+
+  {/* Logo */}
+  <div className="text-2xl font-black tracking-tight text-white flex items-center gap-1">
+    CODIXIA
+    <span className="text-[#A590BF] animate-pulse">.</span>
+  </div>
+
+  {/* Desktop Menu */}
+  <div className="hidden md:flex gap-8 text-sm font-medium text-slate-300">
+
+  {navItems.map((item, index) => (
+    <motion.a
+      key={item.name}
+      href={item.href}
+      initial={{ opacity: 0, y: -15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.1 }}
+      className="relative flex items-center gap-2 group px-2 py-1"
+    >
+
+      {/* Icon */}
+      <span className="text-lg group-hover:text-[#A590BF] transition">
+        {item.icon}
+      </span>
+
+      {/* Text */}
+      <span className="group-hover:text-[#A590BF] transition">
+        {item.name}
+      </span>
+
+      {/* Animated underline */}
+      <span className="absolute left-0 -bottom-1 w-0 h-[2px] 
+      bg-gradient-to-r from-[#A590BF] to-purple-400
+      group-hover:w-full transition-all duration-300"></span>
+
+      {/* Glow */}
+      <span className="absolute inset-0 rounded-md opacity-0 
+      group-hover:opacity-100 
+      bg-[#A590BF]/10 blur-md transition"></span>
+
+    </motion.a>
+  ))}
+
+</div>
+
+  {/* Actions */}
+  <div className="flex gap-4 items-center">
+
+    {/* Language Button */}
+    <button
+      onClick={toggleLanguage}
+      className="hidden md:flex items-center gap-2 text-sm 
+      border border-[#A590BF]/30 
+      bg-gradient-to-r from-[#A590BF]/10 to-transparent
+      px-4 py-2 rounded-xl 
+      hover:scale-105 hover:bg-[#A590BF]/20 
+      transition-all duration-300"
+    >
+      <FiGlobe className="text-lg" />
+      {isRtl ? 'English' : 'العربية'}
+    </button>
+
+    {/* Mobile Menu */}
+    <button
+      onClick={() => setIsOpen(true)}
+      className="md:hidden text-2xl text-white p-2 
+      hover:text-[#A590BF] hover:scale-110 
+      transition-all duration-300"
+    >
+      <FiMenu />
+    </button>
+
+  </div>
+</section>
+
+     <AnimatePresence>
+  {isOpen && (
+    <>
+      {/* Overlay */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={() => setIsOpen(false)}
+        className="fixed inset-0 bg-black/70 backdrop-blur-md z-[60]"
+      />
+
+      {/* Sidebar */}
+      <motion.div
+        initial={{ x: isRtl ? '100%' : '-100%' }}
+        animate={{ x: 0 }}
+        exit={{ x: isRtl ? '100%' : '-100%' }}
+        transition={{ type: 'spring', stiffness: 180, damping: 22 }}
+        className={`fixed top-0 ${isRtl ? 'right-0' : 'left-0'} 
+        h-full w-[300px] 
+        bg-gradient-to-b from-[#08030D] to-[#12071A] 
+        border-x border-[#A590BF]/20 
+        shadow-[0_0_40px_rgba(165,144,191,0.2)] 
+        z-[70] p-8 flex flex-col`}
+      >
+
+        {/* Header */}
+        <div className="flex justify-between items-center mb-12">
+          <div className="text-xl font-black text-white">
+            CODIXIA<span className="text-[#A590BF]">.</span>
+          </div>
+
+          <button
+            onClick={() => setIsOpen(false)}
+            className="text-2xl text-slate-400 hover:text-[#A590BF] transition"
+          >
+            <FiX />
+          </button>
+        </div>
+
+        {/* Links */}
+        <div className="flex flex-col gap-6 mb-auto">
+          {navItems.map((item, index) => (
+            <motion.a
+              key={item.name}
+              href={item.href}
+              onClick={() => setIsOpen(false)}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.05 }}
+              className="text-lg font-semibold text-slate-300 
+              hover:text-[#A590BF] 
+              hover:translate-x-2 
+              transition-all duration-300"
+            >
+              {item.name}
+            </motion.a>
+          ))}
+
+          {/* Language */}
+          <button
+            onClick={toggleLanguage}
+            className="flex items-center gap-2 text-[#A590BF] mt-6 
+            hover:scale-105 transition"
+          >
+            <FiGlobe />
+            {isRtl ? 'English Version' : 'النسخة العربية'}
+          </button>
+        </div>
+
+        {/* Social */}
+        <div className="flex gap-5 text-xl text-slate-500 pt-8 border-t border-[#A590BF]/20">
+          {socialLinks.map((link) => (
+            <a
+              key={link.id}
+              href={link.url}
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-[#A590BF] hover:scale-125 transition-all duration-300"
+            >
+              {link.icon}
+            </a>
           ))}
         </div>
+      </motion.div>
+    </>
+  )}
+</AnimatePresence>
 
-        <div className="flex gap-4 items-center">
-          <button onClick={toggleLanguage} className="hidden md:flex text-cyan-400 items-center gap-1 text-sm border border-cyan-500/20 px-3 py-1 rounded-md hover:bg-cyan-500/10 transition">
-            <FiGlobe /> {isRtl ? 'English' : 'العربية'}
-          </button>
-          
-          {/* Mobile Menu Button */}
-          <button onClick={() => setIsOpen(true)} className="md:hidden text-2xl text-white p-2">
-            <FiMenu />
-          </button>
-        </div>
-      </nav>
-
-      {/* Sidebar Overlay & Content */}
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            {/* الخلفية المظلمة */}
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60]"
-            />
-            
-            {/* الـ Sidebar نفسه */}
-            <motion.div 
-              initial={{ x: isRtl ? '100%' : '-100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: isRtl ? '100%' : '-100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className={`fixed top-0 ${isRtl ? 'right-0' : 'left-0'} h-full w-[280px] bg-[#020617] border-x border-slate-800 z-[70] p-8 flex flex-col`}
-            >
-              <div className="flex justify-between items-center mb-12">
-                <div className="text-xl font-black text-white">CODIXIA<span className="text-cyan-500">.</span></div>
-                <button onClick={() => setIsOpen(false)} className="text-2xl text-slate-400 hover:text-white"><FiX /></button>
-              </div>
-
-              {/* Links */}
-              <div className="flex flex-col gap-6 mb-auto">
-                {navItems.map((item) => (
-                  <a 
-                    key={item.name} 
-                    href={item.href} 
-                    onClick={() => setIsOpen(false)}
-                    className="text-lg font-semibold text-slate-300 hover:text-cyan-400 transition-all"
-                  >
-                    {item.name}
-                  </a>
-                ))}
-                <button onClick={toggleLanguage} className="flex text-cyan-400 items-center gap-2 text-sm mt-4">
-                  <FiGlobe /> {isRtl ? 'English Version' : 'النسخة العربية'}
-                </button>
-              </div>
-
-              {/* Social links at the bottom of sidebar */}
-              <div className="flex gap-5 text-xl text-slate-500 pt-8 border-t border-slate-800">
-                {socialLinks.map((link) => (
-                  <a key={link.id} href={link.url} target="_blank" rel="noreferrer" className="hover:text-cyan-400">
-                    {link.icon}
-                  </a>
-                ))}
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-
-      {/* بقية محتوى الصفحة (Hero, Stats, etc.) كما هو... */}
       <main>
           {/* Hero Section */}
    
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-24 px-6 md:px-16 text-center">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-cyan-500/10 blur-[120px] rounded-full -z-10" />
-        <div data-aos="fade-up"> {/* تطبيق AOS هنا */}
-          <span className="px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/5 text-cyan-400 text-xs font-bold tracking-widest uppercase mb-6 inline-block">
-            {t('hero_badge')}
-          </span>
-          <h1 className="text-6xl md:text-8xl font-bold text-white mb-8 tracking-tight leading-tight">
-            {t('hero_title_1')} <br />
-            <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">{t('hero_title_2')}</span>
-          </h1>
-          <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-12">
-            {t('hero_desc')}
+  <section  id='home' className="relative overflow-hidden py-28 px-6 md:px-16 text-center bg-[#08030D]">
+
+  {/* 🔮 Animated Glow Background */}
+  <div className="absolute inset-0 -z-10">
+    <div className="absolute top-[-100px] left-1/2 -translate-x-1/2 w-[900px] h-[500px] 
+    bg-[#A590BF]/20 blur-[140px] rounded-full animate-pulse" />
+
+    <div className="absolute bottom-[-100px] right-[-100px] w-[400px] h-[400px] 
+    bg-purple-500/20 blur-[120px] rounded-full animate-[spin_20s_linear_infinite]" />
+  </div>
+
+  {/* ✨ Content */}
+  <motion.div
+    initial={{ opacity: 0, y: 40 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.8 }}
+  >
+
+    {/* Badge */}
+    <motion.span
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay: 0.2 }}
+      className="px-5 py-2 rounded-full border border-[#A590BF]/30 
+      bg-[#A590BF]/10 text-[#A590BF] text-xs font-bold tracking-widest uppercase mb-6 inline-block backdrop-blur-md"
+    >
+      {t('hero_badge')}
+    </motion.span>
+
+    {/* Title */}
+    <motion.h1
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.3 }}
+      className="text-5xl md:text-7xl font-extrabold text-white mb-8 tracking-tight leading-tight"
+    >
+      {t('hero_title_1')} <br />
+
+      <span className="relative inline-block">
+        <span className="bg-gradient-to-r from-[#A590BF] via-purple-400 to-indigo-400 
+        bg-clip-text text-transparent animate-gradient">
+          {t('hero_title_2')}
+        </span>
+
+        {/* glow underline */}
+        <span className="absolute left-0 bottom-0 w-full h-[2px] 
+        bg-gradient-to-r from-[#A590BF] to-transparent blur-sm"></span>
+      </span>
+    </motion.h1>
+
+    {/* Description */}
+    <motion.p
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.5 }}
+      className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed"
+    >
+      {t('hero_desc')}
+    </motion.p>
+
+    {/* Buttons */}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.7 }}
+      className="flex flex-col md:flex-row justify-center gap-5"
+    >
+
+     <button
+  onClick={() => {
+    document.getElementById("contact")?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }}
+  className="relative px-10 py-4 rounded-xl font-bold text-white 
+  bg-gradient-to-r from-[#A590BF] to-purple-500 
+  hover:scale-105 transition-all duration-300 
+  shadow-[0_0_25px_#A590BF]"
+>
+  <span className="relative z-10">{t('btn_start')}</span>
+
+  {/* glow */}
+  <span className="absolute inset-0 rounded-xl bg-[#A590BF]/30 blur-lg opacity-0 hover:opacity-100 transition"></span>
+</button>
+
+    </motion.div>
+
+  </motion.div>
+</section>
+
+
+<section className="relative py-16 bg-[#08030D] overflow-hidden border-y border-[#A590BF]/20">
+
+  {/* 🔮 Background Glow */}
+  <div className="absolute inset-0 -z-10">
+    <div className="absolute left-1/2 -translate-x-1/2 top-[-80px] 
+    w-[800px] h-[400px] bg-[#A590BF]/20 blur-[120px] rounded-full animate-pulse" />
+  </div>
+
+  <div className="max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+
+    {[ 
+      { label: t('stat_projects'), val: 150 },
+      { label: t('stat_clients'), val: 80 },
+      { label: t('stat_experts'), val: 25 },
+      { label: t('stat_rate'), val: 99, suffix: "%" }
+    ].map((stat, i) => (
+
+      <motion.div
+        key={i}
+        initial={{ opacity: 0, y: 40, scale: 0.9 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ delay: i * 0.1, duration: 0.6 }}
+        viewport={{ once: true }}
+        className="group relative p-6 rounded-2xl 
+        bg-white/5 backdrop-blur-xl 
+        border border-[#A590BF]/20 
+        hover:scale-105 hover:-translate-y-2 
+        transition-all duration-300 
+        shadow-[0_0_20px_rgba(165,144,191,0.15)]"
+      >
+
+        {/* Glow Hover */}
+        <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 
+        bg-[#A590BF]/10 blur-xl transition"></div>
+
+        {/* Number */}
+        <CountUp end={stat.val} duration={2} />
+
+        {/* Label */}
+        <div className="text-slate-400 text-sm mt-2">
+          {stat.label}
+        </div>
+
+      </motion.div>
+
+    ))}
+
+  </div>
+</section>
+<section id="services" className="relative py-32 px-6 md:px-16 bg-[#08030D] overflow-hidden">
+
+  {/* 🔮 Background Glow */}
+  <div className="absolute inset-0 -z-10">
+    <div className="absolute top-[-100px] left-1/2 -translate-x-1/2 
+    w-[900px] h-[500px] bg-[#A590BF]/20 blur-[140px] rounded-full animate-pulse" />
+  </div>
+
+  <div className="max-w-6xl mx-auto">
+
+    {/* Title */}
+    <motion.div
+      initial={{ opacity: 0, x: isRtl ? 50 : -50 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true }}
+      className="mb-20"
+    >
+      <h2 className="text-4xl font-bold text-white mb-4">
+        {t('services_title')}
+      </h2>
+
+      {/* animated line */}
+      <div className="h-1 w-24 bg-gradient-to-r from-[#A590BF] to-purple-400 rounded-full animate-pulse"></div>
+    </motion.div>
+
+    {/* Cards */}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+      {[
+        { icon: <FiCode />, title: t('service_1_title'), desc: t('service_1_desc') },
+        { icon: <FiLayers />, title: t('service_2_title'), desc: t('service_2_desc') },
+        { icon: <FiCpu />, title: t('service_3_title'), desc: t('service_3_desc') },
+      ].map((item, i) => (
+
+        <motion.div
+          key={i}
+          initial={{ opacity: 0, y: 50, scale: 0.9 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ delay: i * 0.15, duration: 0.6 }}
+          viewport={{ once: true }}
+          className="group relative p-8 rounded-3xl 
+          bg-white/5 backdrop-blur-xl 
+          border border-[#A590BF]/20 
+          hover:scale-105 hover:-translate-y-3 
+          transition-all duration-300 
+          shadow-[0_0_25px_rgba(165,144,191,0.15)]"
+        >
+
+          {/* Glow hover */}
+          <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 
+          bg-[#A590BF]/10 blur-xl transition"></div>
+
+          {/* Icon */}
+          <div className="text-4xl text-[#A590BF] mb-6 
+          group-hover:scale-125 group-hover:rotate-6 
+          transition-all duration-300">
+            {item.icon}
+          </div>
+
+          {/* Title */}
+          <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#A590BF] transition">
+            {item.title}
+          </h3>
+
+          {/* Desc */}
+          <p className="text-slate-400 leading-relaxed text-sm">
+            {item.desc}
           </p>
-          <div className="flex flex-col md:flex-row justify-center gap-5">
-            <button className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 px-10 py-4 rounded-xl font-bold transition-all transform hover:scale-105">
-              {t('btn_start')}
-            </button>
-          </div>
-        </div>
-      </section>
 
-      {/* Stats - Animations */}
-      <section className="py-12 border-y border-slate-800/50 bg-slate-900/20">
-        <div className="max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          {[{ label: t('stat_projects'), val: '150+' }, { label: t('stat_clients'), val: '80+' }, { label: t('stat_experts'), val: '25+' }, { label: t('stat_rate'), val: '99%' }].map((stat, i) => (
-            <div key={i} data-aos="zoom-in" data-aos-delay={i * 100}>
-              <div className="text-3xl font-bold text-white mb-1">{stat.val}</div>
-              <div className="text-slate-500 text-sm">{stat.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
+        </motion.div>
 
-      {/* Services */}
-      <section  className="py-32 px-6 md:px-16">
-        <div className="max-w-6xl mx-auto">
-          <div className="mb-20" data-aos={isRtl ? "fade-left" : "fade-right"}>
-            <h2 className="text-4xl font-bold text-white mb-4">{t('services_title')}</h2>
-            <div className={`h-1 w-20 bg-cyan-500`}></div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div data-aos="fade-up" data-aos-delay="100">
-              <ServiceCard icon={<FiCode />} title={t('service_1_title')} desc={t('service_1_desc')} />
-            </div>
-            <div data-aos="fade-up" data-aos-delay="200">
-              <ServiceCard icon={<FiLayers />} title={t('service_2_title')} desc={t('service_2_desc')} />
-            </div>
-            <div data-aos="fade-up" data-aos-delay="300">
-              <ServiceCard icon={<FiCpu />} title={t('service_3_title')} desc={t('service_3_desc')} />
-            </div>
-          </div>
-        </div>
-      </section>
+      ))}
 
-      {/* Portfolio with AOS */}
+    </div>
+  </div>
+</section>
+
+ 
+
+
+
    <PortfolioDemoSection/>
 <PortfolioGallery  t={t} data={data}/>
 
 
-<section id="contact" className="py-32 px-6 md:px-16">
-      <div data-aos="zoom-out-up" className="max-w-6xl mx-auto bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-10 md:p-20 border border-slate-700/50 shadow-2xl relative">
-        <div className="grid md:grid-cols-2 gap-16">
-          <div>
-            <h2 className="text-4xl font-bold text-white mb-6">{t('contact_title')}</h2>
-            <div className="space-y-6">
-              <ContactInfo icon={<FiPhone />} text="+20 155 062 2443" />
-              <ContactInfo icon={<FiMail />} text="codixiatech@gmail.com" />
+<section id="contact" className="relative py-32 px-6 md:px-16 overflow-hidden bg-[#08030D]">
+  {/* الخلفية المضيئة - تحسين التوزيع */}
+  <div className="absolute inset-0 -z-10">
+    <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-[#A590BF]/15 blur-[120px] rounded-full" />
+    <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-600/10 blur-[120px] rounded-full" />
+  </div>
+
+  <div data-aos="fade-up" className="max-w-6xl mx-auto relative">
+    <div className="bg-[#0D0714]/60 backdrop-blur-xl rounded-[2.5rem] border border-[#A590BF]/20 shadow-2xl overflow-hidden">
+      <div className="grid lg:grid-cols-5 gap-0">
+        
+        {/* عمود معلومات الاتصال (2/5 من المساحة) */}
+        <div className="lg:col-span-2 bg-[#A590BF]/5 p-10 md:p-14 border-b lg:border-b-0 lg:border-e border-[#A590BF]/10">
+          <h2 className="text-4xl font-extrabold text-white mb-4 tracking-tight">
+            {t('contact_title')}
+          </h2>
+          <p className="text-slate-400 mb-10 leading-relaxed">
+            {isRtl ? 'نحن هنا لتحويل أفكارك إلى واقع رقمي. تواصل معنا اليوم!' : 'We are here to turn your ideas into digital reality. Get in touch today!'}
+          </p>
+
+          <div className="space-y-8">
+            <div className="group flex items-center gap-5">
+              <div className="w-12 h-12 rounded-2xl bg-[#A590BF]/10 flex items-center justify-center text-[#A590BF] group-hover:scale-110 group-hover:bg-[#A590BF] group-hover:text-white transition-all duration-300">
+                <FiPhone size={20} />
+              </div>
+              <div>
+                <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">{isRtl ? 'اتصل بنا' : 'Call Us'}</p>
+                <p className="text-white font-medium" dir="ltr">+20 155 062 2443</p>
+              </div>
+            </div>
+
+            <div className="group flex items-center gap-5">
+              <div className="w-12 h-12 rounded-2xl bg-[#A590BF]/10 flex items-center justify-center text-[#A590BF] group-hover:scale-110 group-hover:bg-[#A590BF] group-hover:text-white transition-all duration-300">
+                <FiMail size={20} />
+              </div>
+              <div>
+                <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">{isRtl ? 'البريد الإلكتروني' : 'Email Us'}</p>
+                <p className="text-white font-medium">codixiatech@gmail.com</p>
+              </div>
             </div>
           </div>
 
-          {/* 4. إضافة ref و onSubmit للفورم */}
-          <form ref={form} onSubmit={sendEmail} className="space-y-4">
-            
-            {/* 5. إضافة name="user_name" لتطابق الـ Template */}
-            <input 
-              name="user_name"
-              type="text" 
-              required
-              placeholder={t('form_name')} 
-              className="w-full bg-slate-950/50 border border-slate-700 rounded-xl px-5 py-4 text-white outline-none focus:border-cyan-500 transition" 
-            />
-            <input 
-              name="user_email"
-              type="email" 
-              required
-              placeholder={t('form_email')} 
-              className="w-full bg-slate-950/50 border border-slate-700 rounded-xl px-5 py-4 text-white outline-none focus:border-cyan-500 transition" 
-            />
-            
-         <input 
-  name="user_phone"
-  type="number" 
-  required
-  placeholder={t('form_phone') || "رقم الهاتف"} 
-  className="w-full bg-slate-950/50 border border-slate-700 rounded-xl px-5 py-4 text-white outline-none focus:border-cyan-500 transition 
-             [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
-/>
+          {/* إضافة ساعات العمل أو جملة تشجيعية */}
+          <div className="mt-16 p-5 rounded-2xl bg-white/5 border border-white/5">
+             <p className="text-sm text-slate-400 italic">
+               {isRtl ? '⚡️ نرد عادةً خلال أقل من ساعتين' : '⚡️ We usually respond in less than 2 hours'}
+             </p>
+          </div>
+        </div>
 
-            {/* 7. إضافة name="message" لتطابق الـ Template */}
-            <textarea 
-              name="message"
-              required
-              placeholder={t('form_message') || "رسالتك"} 
-              rows="4"
-              className="w-full bg-slate-950/50 border border-slate-700 rounded-xl px-5 py-4 text-white outline-none focus:border-cyan-500 transition resize-none"
-            ></textarea>
+        {/* عمود الفورم (3/5 من المساحة) */}
+        <div className="lg:col-span-3 p-10 md:p-14 bg-transparent">
+          <form ref={form} onSubmit={sendEmail} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="text-sm text-slate-400 px-1">{t('form_name')}</label>
+              <input 
+                name="user_name"
+                type="text" 
+                required
+                className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-[#A590BF] focus:ring-4 focus:ring-[#A590BF]/10 transition-all duration-300"
+              />
+            </div>
 
-            <button type="submit" className="w-full bg-white text-slate-900 font-bold py-4 rounded-xl hover:bg-cyan-400 transition">
-              {t('btn_send')}
-            </button>
+            <div className="space-y-2">
+              <label className="text-sm text-slate-400 px-1">{t('form_email')}</label>
+              <input 
+                name="user_email"
+                type="email" 
+                required
+                className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-[#A590BF] focus:ring-4 focus:ring-[#A590BF]/10 transition-all duration-300"
+              />
+            </div>
+
+            <div className="md:col-span-2 space-y-2">
+              <label className="text-sm text-slate-400 px-1">{t('form_phone')}</label>
+              <input 
+                name="user_phone"
+                type="number" 
+                required
+                className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-[#A590BF] focus:ring-4 focus:ring-[#A590BF]/10 transition-all duration-300 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              />
+            </div>
+
+            <div className="md:col-span-2 space-y-2">
+              <label className="text-sm text-slate-400 px-1">{t('form_message')}</label>
+              <textarea 
+                name="message"
+                required
+                rows="4"
+                className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-[#A590BF] focus:ring-4 focus:ring-[#A590BF]/10 transition-all duration-300 resize-none"
+              ></textarea>
+            </div>
+
+            <div className="md:col-span-2 pt-4">
+              <button 
+                type="submit" 
+                className="group w-full relative overflow-hidden px-8 py-5 font-bold rounded-2xl bg-[#A590BF] text-white transition-all duration-300 hover:shadow-[0_0_30px_rgba(165,144,191,0.4)] active:scale-[0.98]"
+              >
+                <div className="relative z-10 flex items-center justify-center gap-3">
+                  <span>{t('btn_send')}</span>
+                  <FiArrowRight className={`group-hover:translate-x-2 transition-transform ${isRtl ? 'rotate-180 group-hover:-translate-x-2' : ''}`} />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-[#A590BF] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </button>
+            </div>
           </form>
         </div>
+
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <footer className="py-16 px-6 md:px-16 border-t border-slate-800/50 bg-slate-950/50">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="text-center md:text-start">
-            <div className="text-2xl font-black text-white mb-2">CODIXIA<span className="text-cyan-500"></span></div>
-            <p className="text-slate-500 text-sm max-w-xs">{t('hero_desc')}</p>
-          </div>
+    <footer className="relative py-16 px-6 md:px-16 border-t border-[#A590BF]/20 bg-[#08030D]/90 backdrop-blur-xl">
+  {/* Background Glow */}
+  <div className="absolute inset-0 -z-10">
+    <div className="absolute top-[-80px] left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[#A590BF]/20 blur-[120px] rounded-full animate-pulse" />
+  </div>
 
-          {/* Social Icons in Footer */}
-          <div className="flex gap-6 text-2xl">
-            {socialLinks.map((link) => (
-              <motion.a 
-                whileHover={{ scale: 1.2, color: '#22d3ee' }}
-                key={link.id} 
-                href={link.url} 
-                target="_blank" 
-                rel="noreferrer" 
-                className="text-slate-400 transition-colors"
-              >
-                {link.icon}
-              </motion.a>
-            ))}
-          </div>
-        </div>
-        
-        <div className="mt-12 pt-8 border-t border-slate-800/30 text-center text-slate-600 text-xs">
-          <p>&copy; 2026 CODIXIA. {isRtl ? 'جميع الحقوق محفوظة' : 'All rights reserved.'}</p>
-        </div>
-      </footer>
+  <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 relative z-10">
+    {/* Logo & Description */}
+    <div className="text-center md:text-start">
+      <div className="text-2xl font-black text-white mb-2">
+        CODIXIA
+        <span className="text-[#A590BF] animate-pulse">.</span>
+      </div>
+      <p className="text-slate-400 text-sm max-w-xs">{t('hero_desc')}</p>
+    </div>
+
+    {/* Social Icons */}
+    <div className="flex gap-6 text-2xl">
+      {socialLinks.map((link) => (
+        <motion.a
+          whileHover={{ scale: 1.3, color: '#A590BF', rotate: 10 }}
+          transition={{ type: 'spring', stiffness: 300 }}
+          key={link.id}
+          href={link.url}
+          target="_blank"
+          rel="noreferrer"
+          className="text-slate-400 transition-colors shadow-[0_0_10px_#A590BF]/20 rounded-full p-2 hover:shadow-lg"
+        >
+          {link.icon}
+        </motion.a>
+      ))}
+    </div>
+  </div>
+
+  {/* Copyright */}
+  <div className="mt-12 pt-8 border-t border-[#A590BF]/30 text-center text-slate-500 text-xs relative z-10">
+    <p>
+      &copy; 2026 CODIXIA. {isRtl ? 'جميع الحقوق محفوظة' : 'All rights reserved.'}
+    </p>
+  </div>
+</footer>
       </main>
     </div>
   );
@@ -369,5 +700,12 @@ const ContactInfo = ({ icon, text }) => (
   </div>
 
 );
-
+const CountUp = ({ end, duration = 2 }) => {
+  return (
+    <div className="text-4xl font-extrabold text-white">
+      <CountUpLib end={end} duration={duration} />
+      +
+    </div>
+  );
+};
 export default App;

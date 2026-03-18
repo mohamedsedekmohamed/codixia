@@ -9,6 +9,7 @@ i18n
     resources: {
       en: {
         translation: {
+          nav_Home: "Home",
           nav_services: "Services",
           nav_work: "Our Work",
           nav_contact: "Contact",
@@ -110,6 +111,7 @@ view_all_projects: "عرض جميع المشاريع",
   form_message: "رسالتك",
     cat_ai: "ذكاء اصطناعي",
     view_project: "عرض المشروع",
+    nav_Home: "الصفحة الرئيسية",
           nav_services: "خدماتنا",
           nav_work: "أعمالنا",
           nav_contact: "تواصل معنا",

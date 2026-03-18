@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiArrowUpRight, FiPlus, FiX, FiMaximize2, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { FiArrowUpRight, FiPlus, FiX, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 const PortfolioGallery = ({ t, data }) => {
   const [activeTab, setActiveTab] = useState('S');
@@ -12,7 +12,6 @@ const PortfolioGallery = ({ t, data }) => {
   const currentImages = data[activeTab];
   const visibleImages = showAll ? currentImages : [currentImages[0]];
 
-  // وظائف التنقل داخل الـ Lightbox
   const showNext = (e) => {
     e.stopPropagation();
     setSelectedImgIndex((prev) => (prev + 1) % currentImages.length);
@@ -24,31 +23,36 @@ const PortfolioGallery = ({ t, data }) => {
   };
 
   return (
-    <section id="work" className="py-24 px-6 md:px-16 bg-[#020617]">
-      <div className="max-w-7xl mx-auto">
-        
-        {/* Header Section */}
+    <section id="work" className="py-24 px-6 md:px-16 bg-[#08030D] relative overflow-hidden">
+      {/* Background Glow */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-[-100px] left-1/2 -translate-x-1/2 w-[500px] h-[400px] bg-[#A590BF]/20 blur-[120px] rounded-full animate-pulse" />
+        <div className="absolute bottom-[-80px] right-[-60px] w-[300px] h-[300px] bg-cyan-500/20 blur-[100px] rounded-full animate-pulse" />
+      </div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
           <div data-aos="fade-up">
             <h2 className="text-5xl font-black text-white mb-4 tracking-tight">
               {t('featured_work')}
             </h2>
-            <div className="h-1.5 w-20 bg-cyan-500 rounded-full mb-4"></div>
+            <div className="h-1.5 w-20 bg-[#A590BF] rounded-full mb-4"></div>
             <p className="text-slate-400 max-w-md text-lg leading-relaxed">
               {t('work_desc')}
             </p>
           </div>
 
-          {/* Tabs Control */}
-          <div className="flex p-1 bg-slate-900/80 backdrop-blur-md rounded-2xl border border-slate-800 shadow-2xl">
+          {/* Tabs */}
+          <div className="flex p-1 bg-[#08030D]/80 backdrop-blur-md rounded-2xl border border-[#A590BF]/20 shadow-2xl">
             {['S', 'W'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => { setActiveTab(tab); setShowAll(false); }}
                 className={`px-10 py-3.5 rounded-xl font-bold transition-all duration-500 text-sm tracking-widest uppercase ${
                   activeTab === tab 
-                  ? 'bg-cyan-500 text-slate-950 shadow-[0_0_20px_rgba(6,182,212,0.4)]' 
-                  : 'text-slate-500 hover:text-white'
+                    ? 'bg-[#A590BF] text-[#08030D] shadow-[0_0_20px_rgba(165,144,191,0.4)]' 
+                    : 'text-slate-400 hover:text-white'
                 }`}
               >
                 {tab === 'S' ? t('typeS') : t('typeW')}
@@ -57,14 +61,14 @@ const PortfolioGallery = ({ t, data }) => {
           </div>
         </div>
 
-        {/* Improved Grid System */}
+        {/* Gallery Grid */}
         <div className="relative">
           <motion.div 
             layout
             className={`grid gap-8 ${
               showAll 
-              ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' 
-              : 'grid-cols-1'
+                ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+                : 'grid-cols-1'
             }`}
           >
             <AnimatePresence mode="popLayout">
@@ -80,10 +84,7 @@ const PortfolioGallery = ({ t, data }) => {
                     if (!showAll) setShowAll(true);
                     else setSelectedImgIndex(index);
                   }}
-                  /* هنا التحكم في الطول والعرض: 
-                     aspect-video (16:9) أو aspect-[4/3] أو aspect-[3/4] للموبايل
-                  */
-                  className={`relative group cursor-pointer overflow-hidden rounded-[2.5rem] border border-slate-800/50 bg-slate-900 shadow-2xl shadow-black/50
+                  className={`relative group cursor-pointer overflow-hidden rounded-[2.5rem] border border-[#A590BF]/20 bg-[#0b0b1f] shadow-2xl
                     ${!showAll ? 'aspect-[21/9] w-full min-h-[400px]' : 'aspect-[4/3]'} 
                     ${showAll && index === 0 ? 'md:col-span-2 aspect-auto md:aspect-[16/7]' : ''}`}
                 >
@@ -92,14 +93,14 @@ const PortfolioGallery = ({ t, data }) => {
                     alt="work"
                     className="w-full h-full object-cover object-top transition-transform duration-1000 group-hover:scale-110"
                   />
-                  
-                  {/* Glassmorphism Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/20 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500" />
+
+                  {/* Glass Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#08030D] via-[#08030D]/20 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500" />
 
                   <div className="absolute inset-0 p-10 flex flex-col justify-end">
                     {!showAll ? (
                       <div className="flex flex-col items-center justify-center h-full space-y-6">
-                        <div className="w-24 h-24 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full flex items-center justify-center text-cyan-400 text-4xl shadow-2xl">
+                        <div className="w-24 h-24 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full flex items-center justify-center text-[#A590BF] text-4xl shadow-2xl">
                           <FiPlus />
                         </div>
                         <h3 className="text-4xl md:text-5xl font-black text-white text-center tracking-tighter">
@@ -107,14 +108,10 @@ const PortfolioGallery = ({ t, data }) => {
                         </h3>
                       </div>
                     ) : (
-                      <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                        <div className="flex justify-between items-end">
-                           <div>
-                              
-                           </div>
-                           <div className="w-14 h-14 rounded-2xl bg-white text-slate-950 flex items-center justify-center shadow-xl group-hover:bg-cyan-500 transition-colors duration-300">
-                              <FiArrowUpRight size={28} />
-                           </div>
+                      <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500 flex justify-between items-end">
+                        <div></div>
+                        <div className="w-14 h-14 rounded-2xl bg-white text-[#08030D] flex items-center justify-center shadow-xl group-hover:bg-[#A590BF] group-hover:text-[#08030D] transition-colors duration-300">
+                          <FiArrowUpRight size={28} />
                         </div>
                       </div>
                     )}
@@ -124,36 +121,35 @@ const PortfolioGallery = ({ t, data }) => {
             </AnimatePresence>
           </motion.div>
 
+          {/* Show Less Button */}
           {showAll && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-center mt-20">
               <button 
                 onClick={() => setShowAll(false)}
-                className="group relative flex items-center gap-4 px-12 py-5 bg-transparent border-2 border-slate-800 text-white rounded-2xl overflow-hidden transition-all hover:border-cyan-500"
+                className="group relative flex items-center gap-4 px-12 py-5 bg-transparent border-2 border-[#A590BF] text-white rounded-2xl overflow-hidden transition-all hover:border-cyan-500"
               >
                 <span className="relative z-10 font-black text-sm tracking-[0.3em] uppercase">{t('show_less')}</span>
-                <div className="relative z-10 w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center group-hover:bg-cyan-500 group-hover:text-slate-950 transition-all">↑</div>
+                <div className="relative z-10 w-8 h-8 bg-[#08030D] rounded-full flex items-center justify-center group-hover:bg-[#A590BF] group-hover:text-[#08030D] transition-all">↑</div>
               </button>
             </motion.div>
           )}
         </div>
       </div>
 
-      {/* Lightbox Modal with Navigation */}
+      {/* Lightbox */}
       <AnimatePresence>
         {selectedImgIndex !== null && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/98 backdrop-blur-2xl px-4"
+            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/95 backdrop-blur-2xl px-4"
             onClick={() => setSelectedImgIndex(null)}
           >
-            {/* Close Button */}
             <button className="absolute top-10 right-10 text-white/50 hover:text-white text-4xl p-2 transition-colors" onClick={() => setSelectedImgIndex(null)}>
               <FiX />
             </button>
 
-            {/* Navigation Arrows */}
             <button className="absolute left-6 md:left-12 w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white text-3xl hover:bg-white/10 transition-all" onClick={showPrev}>
               <FiChevronLeft />
             </button>
@@ -161,7 +157,6 @@ const PortfolioGallery = ({ t, data }) => {
               <FiChevronRight />
             </button>
 
-            {/* Full Image */}
             <motion.div 
               className="max-w-6xl max-h-[85vh] relative"
               initial={{ scale: 0.9, y: 20 }}

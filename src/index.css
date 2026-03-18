@@ -1,1 +1,9 @@
 @import "tailwindcss";
+html {
+  scroll-behavior: smooth;
+}
+
+/* لمنع الـ Navbar الثابت من تغطية عناوين الأقسام */
+section {
+  scroll-margin-top: 100px; 
+}
