@@ -1,7 +1,7 @@
 import React, { useEffect, useState,useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';import { useTranslation } from 'react-i18next';
-import { FiCode, FiCpu, FiLayers, FiArrowRight, FiMail, FiPhone, FiMapPin, FiGlobe, FiMenu, FiX, FiInstagram, FiFacebook, FiLinkedin } from 'react-icons/fi';
-import { SiJavascript, SiReact, SiTailwindcss, SiFigma, SiNodedotjs, SiPython, SiTiktok } from 'react-icons/si';
+import { FiCode, FiCpu, FiLayers, FiArrowRight, FiMail, FiPhone, FiMapPin, FiGlobe ,FiMessageCircle , FiMenu, FiX, FiInstagram, FiFacebook, FiLinkedin } from 'react-icons/fi';
+import { SiJavascript, SiReact, SiTailwindcss, SiFigma, SiNodedotjs, SiPython, SiTiktok  } from 'react-icons/si';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import emailjs from '@emailjs/browser'; // 2. استيراد المكتبة
@@ -9,7 +9,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import PortfolioDemoSection from './DashboardScreen';
 import { FiBriefcase } from "react-icons/fi";
 import CountUpLib from "react-countup";
-
+import { FaWhatsapp } from "react-icons/fa";
 import s1 from './assets/s1.png';
 import s2 from './assets/s2.png';
 import s3 from './assets/s3.png';
@@ -26,7 +26,6 @@ import w6 from './assets/w6.png';
 // import w7 from './assets/w7.png';
 // import w8 from './assets/w8.png';
 import PortfolioGallery from './PortfolioGallery';
-import { FaWhatsapp } from "react-icons/fa";
 
 
 const App = () => {
@@ -526,27 +525,59 @@ fixed top-0 z-50">
             {isRtl ? 'نحن هنا لتحويل أفكارك إلى واقع رقمي. تواصل معنا اليوم!' : 'We are here to turn your ideas into digital reality. Get in touch today!'}
           </p>
 
-          <div className="space-y-8">
-            <div className="group flex items-center gap-5">
-              <div className="w-12 h-12 rounded-2xl bg-[#A590BF]/10 flex items-center justify-center text-[#A590BF] group-hover:scale-110 group-hover:bg-[#A590BF] group-hover:text-white transition-all duration-300">
-                <FiPhone size={20} />
-              </div>
-              <div>
-                <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">{isRtl ? 'اتصل بنا' : 'Call Us'}</p>
-                <p className="text-white font-medium" dir="ltr">+20 155 062 2443</p>
-              </div>
-            </div>
+         <div className="space-y-8">
 
-            <div className="group flex items-center gap-5">
-              <div className="w-12 h-12 rounded-2xl bg-[#A590BF]/10 flex items-center justify-center text-[#A590BF] group-hover:scale-110 group-hover:bg-[#A590BF] group-hover:text-white transition-all duration-300">
-                <FiMail size={20} />
-              </div>
-              <div>
-                <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">{isRtl ? 'البريد الإلكتروني' : 'Email Us'}</p>
-                <p className="text-white font-medium">codixiatech@gmail.com</p>
-              </div>
-            </div>
-          </div>
+  {/* Call */}
+  <a href="tel:+201221278019" className="group flex items-center gap-5">
+    <div className="w-12 h-12 rounded-2xl bg-[#A590BF]/10 flex items-center justify-center text-[#A590BF] group-hover:scale-110 group-hover:bg-[#A590BF] group-hover:text-white transition-all duration-300">
+      <FiPhone size={20} />
+    </div>
+    <div>
+      <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">
+        {isRtl ? 'اتصل بنا' : 'Call Us'}
+      </p>
+      <p className="text-white font-medium" dir="ltr">
+        +20 122 127 8019
+      </p>
+    </div>
+  </a>
+
+  {/* Email */}
+  <a href="mailto:support@codixiatech.online" className="group flex items-center gap-5">
+    <div className="w-12 h-12 rounded-2xl bg-[#A590BF]/10 flex items-center justify-center text-[#A590BF] group-hover:scale-110 group-hover:bg-[#A590BF] group-hover:text-white transition-all duration-300">
+      <FiMail size={20} />
+    </div>
+    <div>
+      <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">
+        {isRtl ? 'البريد الإلكتروني' : 'Email Us'}
+      </p>
+      <p className="text-white font-medium">
+        support@codixiatech.online
+      </p>
+    </div>
+  </a>
+
+  {/* WhatsApp */}
+  <a 
+    href="https://wa.me/201221278019" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="group flex items-center gap-5"
+  >
+    <div className="w-12 h-12 rounded-2xl bg-[#25D366]/10 flex items-center justify-center text-[#25D366] group-hover:scale-110 group-hover:bg-[#25D366] group-hover:text-white transition-all duration-300">
+      <FiMessageCircle size={20} />
+    </div>
+    <div>
+      <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">
+        {isRtl ? 'واتساب' : 'WhatsApp'}
+      </p>
+      <p className="text-white font-medium" dir="ltr">
+        +20 122 127 8019
+      </p>
+    </div>
+  </a>
+
+</div>
 
           {/* إضافة ساعات العمل أو جملة تشجيعية */}
           <div className="mt-16 p-5 rounded-2xl bg-white/5 border border-white/5">
